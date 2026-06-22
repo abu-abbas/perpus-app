@@ -197,3 +197,26 @@ erDiagram
     loans ||--o| fines : "has"
 ```
 
+### Penjelasan Relasi Entitas (Kardinalitas)
+
+1. **`categories` ke `items` (1:M / One-to-Many)**:
+   * Setiap **Kategori** (`categories`) dapat memiliki satu atau banyak **Item Pustaka** (`items`).
+   * Sebaliknya, satu **Item Pustaka** hanya boleh terikat pada tepat satu **Kategori** via `category_id`.
+   
+2. **`members` ke `loans` (1:M / One-to-Many)**:
+   * Setiap **Anggota** (`members`) dapat melakukan banyak kali transaksi **Peminjaman** (`loans`) secara historis.
+   * Sebaliknya, satu baris data **Peminjaman** hanya mencatat satu **Anggota** yang bertanggung jawab via `member_id`.
+
+3. **`items` ke `loans` (1:M / One-to-Many)**:
+   * Setiap **Item Pustaka** (`items`) dapat dipinjam berkali-kali dalam transaksi **Peminjaman** (`loans`) yang berbeda (misalnya setelah dikembalikan, item tersebut dipinjam kembali).
+   * Sebaliknya, satu transaksi **Peminjaman** hanya boleh meminjam satu **Item Pustaka** via `item_id`.
+
+4. **`users` ke `loans` (1:M / One-to-Many)**:
+   * Setiap **User/Pustakawan/Admin** (`users`) dapat memproses banyak transaksi **Peminjaman** (`loans`).
+   * Sebaliknya, setiap transaksi **Peminjaman** mencatat satu **Pustakawan** yang melayani transaksi tersebut via `librarian_id`.
+
+5. **`loans` ke `fines` (1:1 / One-to-One / Zero-or-One)**:
+   * Setiap transaksi **Peminjaman** (`loans`) dapat memiliki maksimal satu catatan **Denda** (`fines`) apabila terjadi keterlambatan pengembalian atau kerusakan item (bersifat opsional, *zero or one*).
+   * Sebaliknya, satu catatan **Denda** merujuk ke tepat satu transaksi **Peminjaman** via `loan_id`.
+
+
