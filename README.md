@@ -197,6 +197,17 @@ erDiagram
     loans ||--o| fines : "has"
 ```
 
+### Kamus Data / Struktur Tabel
+
+| Tabel | Primary / Foreign Key | Keterangan |
+| :--- | :--- | :--- |
+| **`users`** | **PK:** `id` | Menyimpan data akun pengguna (Admin dan Pustakawan) untuk autentikasi sistem dan pencatatan petugas transaksi. |
+| **`categories`** | **PK:** `id` | Menyimpan kategori pengelompokan untuk item pustaka (misalnya: Sains, Novel, Komputer). |
+| **`items`** | **PK:** `id`<br>**FK:** `category_id` (ke `categories.id`) | Menyimpan data koleksi pustaka (Buku, Majalah, DVD), jumlah stok, cover, serta detail spesifik dalam atribut JSON. |
+| **`members`** | **PK:** `id` | Menyimpan data profil anggota perpustakaan yang memiliki hak akses untuk meminjam koleksi pustaka. |
+| **`loans`** | **PK:** `id`<br>**FK:** `member_id` (ke `members.id`) <br>**FK:** `item_id` (ke `items.id`) <br>**FK:** `librarian_id` (ke `users.id`) | Menyimpan riwayat transaksi peminjaman barang, tanggal batas kembali, dan tanggal pengembalian aktual. |
+| **`fines`** | **PK:** `id`<br>**FK:** `loan_id` (ke `loans.id`) | Menyimpan data denda keterlambatan atau kerusakan yang berasosiasi dengan transaksi peminjaman terkait. |
+
 ### Penjelasan Relasi Entitas (Kardinalitas)
 
 1. **`categories` ke `items` (1:M / One-to-Many)**:
@@ -218,5 +229,6 @@ erDiagram
 5. **`loans` ke `fines` (1:1 / One-to-One / Zero-or-One)**:
    * Setiap transaksi **Peminjaman** (`loans`) dapat memiliki maksimal satu catatan **Denda** (`fines`) apabila terjadi keterlambatan pengembalian atau kerusakan item (bersifat opsional, *zero or one*).
    * Sebaliknya, satu catatan **Denda** merujuk ke tepat satu transaksi **Peminjaman** via `loan_id`.
+
 
 
